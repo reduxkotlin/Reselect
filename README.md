@@ -12,7 +12,25 @@
 ![badge][badge-mac]
 ![badge][badge-wasm]
 
-A Redux Reselect implementation for memoized dispatch on state selectors.
+A Redux Reselect implementation for memoized dispatch on state selectors.  Forked from [Reduks](https://github.com/beyondeye/Reduks) implementation.
+
+Documentation to come.
+
+Example usage:
+
+```
+val subscriber: StoreSubscriber = SelectorSubscriberFn<AppState>(store) {
+    withSingleField({ it.isLoadingItems }) {  <--  only called when isLoadingItems changes from previous state.
+        if (state.isLoadingItems) {
+                view?.showLoading()
+            } else {
+                view?.hideLoading()
+            }
+        }
+
+store.subscribe(subscriber)
+
+```
 
 __How to add to project:__
 

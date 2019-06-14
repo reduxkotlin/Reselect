@@ -16,7 +16,7 @@ def pomConfig = {
     }
 
     scm {
-        url "https://github.com/reduxkotlin/redux-kotlin-reselect"
+        url "https://github.com/reduxkotlin/Reselect"
     }
 }
 
@@ -24,6 +24,6 @@ project.ext.configureMavenCentralMetadata = { pom ->
     def root = asNode()
     root.appendNode('name', project.name)
     root.appendNode('description', 'Reselect implementation for ReduxKotlin.')
-    root.appendNode('url', 'https://github.com/reduxkotlin/redux-kotlin-reselect')
+    root.appendNode('url', 'https://github.com/reduxkotlin/Rselect')
     root.children().last() + pomConfig
 }
