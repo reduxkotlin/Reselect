@@ -7,7 +7,7 @@ apply plugin: 'kotlin-multiplatform'
 archivesBaseName = 'redux-kotlin-reselect'
 
 group 'org.reduxkotlin'
-version '0.2.3'
+version '0.2.5'
 
 kotlin {
     jvm()
@@ -20,20 +20,48 @@ kotlin {
             }
         }
     }
-    iosArm64("ios")
-    iosX64("iosSim")
-    macosX64("macos")
-    mingwX64("win")
-    wasm32("wasm")
-    linuxArm32Hfp("linArm32")
-    linuxMips32("linMips32")
-    linuxMipsel32("linMipsel32")
-    linuxX64("lin64")
+    //-module-name args are needed to prevent circular deps bug on native platforms
+    iosArm64("ios") {
+        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
+    }
+
+    iosX64("iosSim") {
+        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
+    }
+    macosX64("macos") {
+        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
+    }
+
+    mingwX64("win") {
+        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
+    }
+
+    wasm32("wasm") {
+        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
+    }
+
+    linuxArm32Hfp("linArm32") {
+        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
+    }
+
+    linuxMips32("linMips32") {
+        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
+    }
+
+    linuxMipsel32("linMipsel32") {
+        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
+    }
+
+    linuxX64("lin64") {
+        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
+    }
+
 
     sourceSets {
         commonMain {
             dependencies {
                 implementation kotlin("stdlib-common")
+                implementation "org.reduxkotlin:redux-kotlin:0.2.4"
             }
         }
         commonTest {
@@ -44,7 +72,6 @@ kotlin {
                 implementation "org.spekframework.spek2:spek-dsl-metadata:$project.versions.spek"
                 implementation "ch.tutteli.atrium:atrium-cc-en_GB-robstoll-common:$project.versions.atrium"
                 implementation "io.mockk:mockk-common:1.9.3"
-                implementation "org.reduxkotlin:redux-kotlin:0.2.1"
             }
         }
 
