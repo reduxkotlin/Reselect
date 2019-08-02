@@ -4,10 +4,10 @@ repositories {
 apply plugin: 'java'
 apply plugin: 'kotlin-multiplatform'
 
-archivesBaseName = 'redux-kotlin-reselect'
+archivesBaseName = 'reselect'
 
 group 'org.reduxkotlin'
-version '0.2.7'
+version '0.2.8'
 
 kotlin {
     jvm()

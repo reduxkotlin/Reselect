@@ -10,7 +10,7 @@ package org.reduxkotlin
  */
 class SelectorSubscriberBuilder<State : Any>(val store: Store) {
 
-    private val selectorList = mutableMapOf<Selector<State, Any>, (Any) -> Unit>()
+    val selectorList = mutableMapOf<Selector<State, Any>, (Any) -> Unit>()
 
     //state is here to make available to lambda with receiver in DSL
     val state: State
