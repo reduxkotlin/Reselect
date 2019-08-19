@@ -1,6 +1,6 @@
 # Redux-Kotlin
 
-[![CircleCI](https://circleci.com/gh/reduxkotlin/redux-kotlin-thunk.svg?style=svg)](https://circleci.com/gh/reduxkotlin/redux-kotlin-thunk)
+[![CircleCI](https://circleci.com/gh/reduxkotlin/Reselect.svg?style=svg)](https://circleci.com/gh/reduxkotlin/Reselect)
 
 
 ![badge][badge-android]
