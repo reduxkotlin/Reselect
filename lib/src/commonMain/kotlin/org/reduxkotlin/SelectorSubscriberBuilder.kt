@@ -8,13 +8,13 @@ package org.reduxkotlin
  * @property store The redux store
  * @constructor creates an empty SelectorSubscriberBuilder
  */
-class SelectorSubscriberBuilder<State : Any>(val store: Store) {
+class SelectorSubscriberBuilder<State : Any>(val store: Store<State>) {
 
     val selectorList = mutableMapOf<Selector<State, Any>, (Any) -> Unit>()
 
     //state is here to make available to lambda with receiver in DSL
     val state: State
-        get() = store.getState() as State
+        get() = store.getState()
 
     var withAnyChangeFun: (() -> Unit)? = null
 
