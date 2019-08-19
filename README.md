@@ -41,7 +41,7 @@ kotlin {
   sourceSets {
         commonMain { //   <---  name may vary on your project
             dependencies {
-                implementation "org.reduxkotlin:redux-kotlin-reselect:0.2.7"
+                implementation "org.reduxkotlin:redux-kotlin-reselect:0.2.9"
             }
         }
  }
@@ -49,7 +49,7 @@ kotlin {
 
 For JVM only:
 ```
-  implementation "org.reduxkotlin:redux-kotlin-jvm-reselect:0.2.7"
+  implementation "org.reduxkotlin:redux-kotlin-jvm-reselect:0.2.9"
 ```
 
 [badge-android]: http://img.shields.io/badge/platform-android-brightgreen.svg?style=flat
