@@ -7,7 +7,7 @@ apply plugin: 'kotlin-multiplatform'
 archivesBaseName = 'reselect'
 
 group 'org.reduxkotlin'
-version '0.2.9'
+version '0.4.0'
 
 kotlin {
     jvm()
@@ -20,48 +20,12 @@ kotlin {
             }
         }
     }
-    //-module-name args are needed to prevent circular deps bug on native platforms
-    iosArm64("ios") {
-        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
-    }
-
-    iosX64("iosSim") {
-        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
-    }
-    macosX64("macos") {
-        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
-    }
-
-    mingwX64("win") {
-        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
-    }
-
-    wasm32("wasm") {
-        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
-    }
-
-    linuxArm32Hfp("linArm32") {
-        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
-    }
-
-    linuxMips32("linMips32") {
-        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
-    }
-
-    linuxMipsel32("linMipsel32") {
-        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
-    }
-
-    linuxX64("lin64") {
-        compilations.main.extraOpts.addAll(["-module-name", "reselect"])
-    }
-
 
     sourceSets {
         commonMain {
             dependencies {
                 implementation kotlin("stdlib-common")
-                implementation "org.reduxkotlin:redux-kotlin:0.2.6"
+                implementation "org.reduxkotlin:redux-kotlin:0.4.0"
             }
         }
         commonTest {
