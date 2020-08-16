@@ -41,7 +41,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation("org.reduxkotlin:redux-kotlin:0.5.5-6.5.1-SNAPSHOT")
+                implementation(Libs.redux_kotlin)
             }
         }
 
@@ -49,7 +49,6 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-                implementation(Libs.mockk_common)
             }
         }
 
@@ -81,9 +80,6 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation(Libs.kotlinx_coroutines_test)
-                implementation(Libs.kotlinx_coroutines_core_jvm)
-                implementation(Libs.mockk)
                 runtimeOnly(Libs.kotlin_reflect)
             }
         }

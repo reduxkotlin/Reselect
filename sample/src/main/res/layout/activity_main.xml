@@ -27,6 +27,7 @@
         android:layout_height="match_parent">
         <ProgressBar
             android:id="@+id/loading_indicator"
+            android:indeterminate="true"
             android:visibility="gone"
             tools:visibility="visible"
             android:layout_gravity="center"

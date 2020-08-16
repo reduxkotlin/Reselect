@@ -13,5 +13,4 @@ rootProject.name='Redux-Kotlin-reselect'
 
 
 rootProject.name = 'test'
-enableFeaturePreview('GRADLE_METADATA')
 include ':sample'

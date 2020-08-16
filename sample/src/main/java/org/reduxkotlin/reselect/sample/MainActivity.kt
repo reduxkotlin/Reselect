@@ -27,9 +27,9 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-//        subscription = store.select({it.isLoading}) {
-//            loadingIndicator.visibility = if (store.state.isLoading) View.VISIBLE else View.GONE
-//        }
+        subscription = store.select({it.isLoading}) {
+            loadingIndicator.visibility = if (store.state.isLoading) View.VISIBLE else View.GONE
+        }
 
         multiSubscription = store.selectors {
             select({ it.isLoading}) {

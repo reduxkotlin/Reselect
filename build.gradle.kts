@@ -13,7 +13,6 @@ buildscript {
         classpath(Plugins.kotlin)
         classpath(Plugins.dokka)
         classpath(Plugins.android)
-        classpath(Plugins.atomicFu)
     }
 }
 
