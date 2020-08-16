@@ -11,7 +11,7 @@ object Libs {
      * https://developer.android.com/studio
      */
     const val com_android_tools_build_gradle: String = "com.android.tools.build:gradle:" +
-            Versions.com_android_tools_build_gradle
+        Versions.com_android_tools_build_gradle
 
     const val dokka_gradle_plugin: String = "org.jetbrains.dokka:dokka-gradle-plugin:" +
         Versions.dokka_gradle_plugin
@@ -102,5 +102,4 @@ object Libs {
 
     const val redux_kotlin: String = "org.reduxkotlin:redux-kotlin:" +
         Versions.org_reduxkotlin_redux_kotlin
-
 }

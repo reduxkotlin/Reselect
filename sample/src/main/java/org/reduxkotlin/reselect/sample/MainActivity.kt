@@ -1,16 +1,26 @@
 package org.reduxkotlin.reselect.sample
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
-import org.reduxkotlin.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.reduxkotlin.Reducer
+import org.reduxkotlin.StoreSubscription
+import org.reduxkotlin.Thunk
+import org.reduxkotlin.applyMiddleware
+import org.reduxkotlin.createStore
+import org.reduxkotlin.createThunkMiddleware
+import org.reduxkotlin.select
+import org.reduxkotlin.selectors
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,12 +37,12 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        subscription = store.select({it.isLoading}) {
-            loadingIndicator.visibility = if (store.state.isLoading) View.VISIBLE else View.GONE
-        }
+//        subscription = store.select({ it.isLoading }) {
+//            loadingIndicator.visibility = if (store.state.isLoading) View.VISIBLE else View.GONE
+//        }
 
         multiSubscription = store.selectors {
-            select({ it.isLoading}) {
+            select({ it.isLoading }) {
                 loadingIndicator.visibility = if (store.state.isLoading) View.VISIBLE else View.GONE
             }
         }

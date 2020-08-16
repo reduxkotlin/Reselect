@@ -11,7 +11,7 @@ class SelectorSubscriberBuilder<State : Any>(val store: Store<State>) {
 
     val selectorList = mutableMapOf<Selector<State, Any>, (Any) -> Unit>()
 
-    //state is here to make available to lambda with receiver in DSL
+    // state is here to make available to lambda with receiver in DSL
     val state: State
         get() = store.getState()
 

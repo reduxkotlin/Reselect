@@ -2,7 +2,7 @@ package org.reduxkotlin
 
 import kotlin.jvm.JvmField
 
-private typealias EqualityCheckFn = (a:Any, b:Any) -> Boolean
+private typealias EqualityCheckFn = (a: Any, b: Any) -> Boolean
 
 /**
  * A rewrite for kotlin of https://github.com/reactjs/reselect library for redux (https://github.com/reactjs/redux)
@@ -27,18 +27,18 @@ interface Memoizer<T> {
 fun <T> computationMemoizer(computeFn: (Array<out Any>) -> T) = object : Memoizer<T> {
     var lastArgs: Array<out Any>? = null
     var lastResult: T? = null
-    override fun memoize(state:Any,vararg inputs: SelectorInput<Any, Any>): T {
-        val nInputs=inputs.size
-        val args=Array<Any>(nInputs) { inputs[it].invoke(state) }
-        if(lastArgs!=null && lastArgs!!.size==inputs.size) {
-            var bMatchedArgs=true
-            for(i in 0 until nInputs) {
-                if(!inputs[i].equalityCheck(args[i],lastArgs!![i])) {
-                    bMatchedArgs=false
+    override fun memoize(state: Any, vararg inputs: SelectorInput<Any, Any>): T {
+        val nInputs = inputs.size
+        val args = Array<Any>(nInputs) { inputs[it].invoke(state) }
+        if (lastArgs != null && lastArgs!!.size == inputs.size) {
+            var bMatchedArgs = true
+            for (i in 0 until nInputs) {
+                if (!inputs[i].equalityCheck(args[i], lastArgs!![i])) {
+                    bMatchedArgs = false
                     break
                 }
             }
-            if(bMatchedArgs) {
+            if (bMatchedArgs) {
                 return lastResult!!
             }
         }
@@ -48,19 +48,18 @@ fun <T> computationMemoizer(computeFn: (Array<out Any>) -> T) = object : Memoize
     }
 }
 
-
-
 /**
  * specialization for the case of single input (a little bit faster)
  */
-fun <T> singleInputMemoizer(func: (Array<out Any>) -> T)=object: Memoizer<T> {
-    var lastArg:Any?=null
-    var lastResult:T?=null
+fun <T> singleInputMemoizer(func: (Array<out Any>) -> T) = object : Memoizer<T> {
+    var lastArg: Any? = null
+    var lastResult: T? = null
     override fun memoize(state: Any, vararg inputs: SelectorInput<Any, Any>): T {
-        val input=inputs[0]
-        val arg=input.invoke(state)
+        val input = inputs[0]
+        val arg = input.invoke(state)
         if (lastArg != null &&
-                input.equalityCheck(arg,lastArg!!)){
+            input.equalityCheck(arg, lastArg!!)
+        ) {
             return lastResult!!
         }
         lastArg = arg
@@ -68,7 +67,6 @@ fun <T> singleInputMemoizer(func: (Array<out Any>) -> T)=object: Memoizer<T> {
         return lastResult!!
     }
 }
-
 
 interface SelectorInput<S, I> {
     operator fun invoke(state: S): I
@@ -78,10 +76,9 @@ interface SelectorInput<S, I> {
 /**
  * a selector function is a function that map a field in state object to the input for the selector compute function
  */
-class InputField<S, I>(val fn: S.() -> I,override val equalityCheck: EqualityCheckFn) : SelectorInput<S, I> {
+class InputField<S, I>(val fn: S.() -> I, override val equalityCheck: EqualityCheckFn) : SelectorInput<S, I> {
     override operator fun invoke(state: S): I = state.fn()
 }
-
 
 /**
  * note: [Selector] inherit from [SelectorInput] because of support for composite selectors
@@ -107,7 +104,6 @@ interface Selector<S, O> : SelectorInput<S, O> {
     fun onChangeIn(state: S, blockfn: (O) -> Unit) {
         getIfChangedIn(state)?.let(blockfn)
     }
-
 }
 
 /**
@@ -130,29 +126,26 @@ abstract class AbstractSelector<S, O> : Selector<S, O> {
         recomputationsLastChanged = _recomputations
     }
 
-
     protected abstract val computeAndCount: (i: Array<out Any>) -> O
     /**
      * 'lazy' because computeandcount is abstract. Cannot reference to it before it is initialized in concrete selectors
      * 'open' because we can provide a custom memoizer if needed
      */
     open val memoizer by lazy { computationMemoizer(computeAndCount) }
-
 }
-
 
 /**
  * wrapper class for Selector factory methods , that basically is used only to capture
  * type information for the state parameter
  */
-class SelectorBuilder<S:Any> {
+class SelectorBuilder<S : Any> {
     /**
      * special single input selector that should be used when you just want to retrieve a single field:
      * Warning: Don't use this with primitive type fields, use [withSingleFieldByValue] instead!!!
      */
     fun <I : Any> withSingleField(fn: S.() -> I) = object : AbstractSelector<S, I>() {
         @Suppress("UNCHECKED_CAST")
-        private val inputField= InputField(fn, byRefEqualityCheck) as SelectorInput<Any, Any>
+        private val inputField = InputField(fn, byRefEqualityCheck) as SelectorInput<Any, Any>
         override val computeAndCount = fun(i: Array<out Any>): I {
             ++_recomputations
             @Suppress("UNCHECKED_CAST")
@@ -160,7 +153,7 @@ class SelectorBuilder<S:Any> {
         }
 
         override operator fun invoke(state: S): I {
-            return memoizer.memoize(state,inputField)
+            return memoizer.memoize(state, inputField)
         }
         override val equalityCheck: EqualityCheckFn
             get() = byRefEqualityCheck
@@ -174,14 +167,14 @@ class SelectorBuilder<S:Any> {
      */
     fun <I : Any> withSingleFieldByValue(fn: S.() -> I) = object : AbstractSelector<S, I>() {
         @Suppress("UNCHECKED_CAST")
-        private val inputField= InputField(fn, byValEqualityCheck) as SelectorInput<Any, Any>
+        private val inputField = InputField(fn, byValEqualityCheck) as SelectorInput<Any, Any>
         override val computeAndCount = fun(i: Array<out Any>): I {
             ++_recomputations
             @Suppress("UNCHECKED_CAST")
             return i[0] as I
         }
         override operator fun invoke(state: S): I {
-            return memoizer.memoize(state,inputField)
+            return memoizer.memoize(state, inputField)
         }
         override val equalityCheck: EqualityCheckFn
             get() = byValEqualityCheck
@@ -209,7 +202,7 @@ class SelectorBuilder<S:Any> {
  *          }
  *      }
  */
-fun <State: Any>Store<State>.selectors(selectorSubscriberBuilderInit: SelectorSubscriberBuilder<State>.() -> Unit): StoreSubscriber {
+fun <State : Any> Store<State>.selectors(selectorSubscriberBuilderInit: SelectorSubscriberBuilder<State>.() -> Unit): StoreSubscriber {
     val subscriberBuilder: SelectorSubscriberBuilder<State> = SelectorSubscriberBuilder(this)
     subscriberBuilder.selectorSubscriberBuilderInit()
     val sub = {
@@ -220,13 +213,15 @@ fun <State: Any>Store<State>.selectors(selectorSubscriberBuilderInit: SelectorSu
         subscriberBuilder.withAnyChangeFun?.invoke()
         Unit
     }
-    //call subscriber immediately when subscribing
+    // call subscriber immediately when subscribing
     sub()
     return this.subscribe(sub)
 }
 
-fun <State: Any>Store<State>.select(selector: (State) -> Any, action: (Any) -> Unit): StoreSubscriber {
-    return subscribe(this.selectors {
-        select(selector, action)
-    })
+fun <State : Any> Store<State>.select(selector: (State) -> Any, action: (Any) -> Unit): StoreSubscriber {
+    return subscribe(
+        this.selectors {
+            select(selector, action)
+        }
+    )
 }
