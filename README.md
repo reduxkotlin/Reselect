@@ -1,7 +1,6 @@
-# Redux-Kotlin
+# Reselect
 
-[![CircleCI](https://circleci.com/gh/reduxkotlin/Reselect.svg?style=svg)](https://circleci.com/gh/reduxkotlin/Reselect)
-
+![CI](https://github.com/reduxkotlin/Reselect/workflows/PR/badge.svg)
 
 ![badge][badge-android]
 ![badge][badge-native]
