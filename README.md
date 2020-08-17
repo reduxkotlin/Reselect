@@ -18,30 +18,45 @@ Documentation to come.
 
 Example usage:
 
+Subscribe to a single substate:
+
 ```
-val subscriber: StoreSubscriber = SelectorSubscriberFn<AppState>(store) {
-    withSingleField({ it.isLoadingItems }) {  <--  only called when isLoadingItems changes from previous state.
-        if (state.isLoadingItems) {
-                view?.showLoading()
-            } else {
-                view?.hideLoading()
+//selecting a substate subscribes to changes.  Lambda block will be executed when there is 
+//a change in value of `isLoading`
+val subscriber: StoreSubscriber = store.select({ it.isLoading }) {
+        loadingIndicator.visibility = if (store.state.isLoading) View.VISIBLE else View.GONE
+    }
+
+//invoking subcription unsubscribes.  Do this when appropriate for component lifecycle
+subscriber()  
+```
+
+Subscribe to multiple substates:
+```
+val multiSubscription = store.selectors {
+            select({ it.isLoading }) {
+                loadingIndicator.visibility = if (store.state.isLoading) View.VISIBLE else View.GONE
+            }
+            select({ it.name }) {
+                nameTextView.text = store.state.name
             }
         }
 
-store.subscribe(subscriber)
-
+//unsubscribe when appropriate
+multiSubscription()
 ```
-
 __How to add to project:__
 
+Requires Kotlin 1.4.0.
 Artifacts are hosted on maven central.  For multiplatform, add the following to your shared module:
+
 
 ```
 kotlin {
   sourceSets {
         commonMain { //   <---  name may vary on your project
             dependencies {
-                implementation "org.reduxkotlin:redux-kotlin-reselect:0.4.0"
+                implementation "org.reduxkotlin:redux-kotlin-reselect:0.5.5"
             }
         }
  }
@@ -49,7 +64,7 @@ kotlin {
 
 For JVM only:
 ```
-  implementation "org.reduxkotlin:redux-kotlin-jvm-reselect:0.4.0"
+  implementation "org.reduxkotlin:redux-kotlin-jvm-reselect:0.5.5"
 ```
 
 [badge-android]: http://img.shields.io/badge/platform-android-brightgreen.svg?style=flat
