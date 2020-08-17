@@ -20,10 +20,31 @@ dokka {
         path = kotlin.sourceSets.commonMain.kotlin.srcDirs[0]
         platforms = ["Common"]
     }
+//    if (kotlin.sourceSets.getNames().contains("jvmMain")) {
+//        sourceRoot {
+//            // assuming there is only a single source dir...
+//            path = kotlin.sourceSets.jvmMain.kotlin.srcDirs[0]
+//            platforms = ["JVM"]
+//        }
+//    }
+//    if (kotlin.sourceSets.getNames().contains("jsMain")) {
+//        sourceRoot {
+//            // assuming there is only a single source dir...
+//            path = kotlin.sourceSets.jsMain.kotlin.srcDirs[0]
+//            platforms = ["js"]
+//        }
+//    }
+//    if (kotlin.sourceSets.getNames().contains("nativeMain")) {
+//        sourceRoot {
+//            // assuming there is only a single source dir...
+//            path = kotlin.sourceSets.nativeMain.kotlin.srcDirs[0]
+//            platforms = ["native"]
+//        }
+//    }
 }
 
 def isReleaseBuild() {
-    return VERSION_NAME.contains("SNAPSHOT") == false
+    return version.contains("SNAPSHOT") == false
 }
 
 def getReleaseRepositoryUrl() {
@@ -37,11 +58,11 @@ def getSnapshotRepositoryUrl() {
 }
 
 def getRepositoryUsername() {
-    return hasProperty('SONATYPE_NEXUS_USERNAME') ? SONATYPE_NEXUS_USERNAME : ""
+    return findProperty('SONATYPE_NEXUS_USERNAME') ?: System.getenv('SONATYPE_NEXUS_USERNAME') ?: ""
 }
 
 def getRepositoryPassword() {
-    return hasProperty('SONATYPE_NEXUS_PASSWORD') ? SONATYPE_NEXUS_PASSWORD : ""
+    return findProperty('SONATYPE_NEXUS_PASSWORD') ?: System.getenv('SONATYPE_NEXUS_PASSWORD') ?: ""
 }
 
 task emptySourcesJar(type: Jar) {
@@ -54,8 +75,11 @@ task javadocsJar(type: Jar, dependsOn: dokka) {
 }
 
 signing {
-    required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-    sign(publishing.publications)
+    required { isReleaseBuild() /*&& gradle.taskGraph.hasTask("uploadArchives") */ }
+//    def signingKey = findProperty("GPG_SECRET") ?: System.getenv('GPG_SECRET') ?: ""
+//    def signingPassword = findProperty("GPG_SIGNING_PASSWORD") ?: System.getenv('GPG_SIGNING_PASSWORD') ?: ""
+//    useInMemoryPgpKeys(signingKey, signingPassword)
+//    sign(publishing.publications)
 }
 
 publishing {
