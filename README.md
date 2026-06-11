@@ -1,3 +1,5 @@
+> ⚠️ **This repository is archived.** Selector support is built into the [redux-kotlin monorepo](https://github.com/reduxkotlin/redux-kotlin) — see `redux-kotlin-granular` field subscriptions and the Compose `selectorState` bindings.
+
 # Reselect
 
 ![CI](https://github.com/reduxkotlin/Reselect/workflows/PR/badge.svg)
